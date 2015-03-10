@@ -2,7 +2,11 @@ public class GridSquare{
 
    ShipSection shipSection;
    
-   public void getShipSection(){
+   public GridSquare(){
+      shipSection=null;
+   }
+   
+   public ShipSection getShipSection(){
       return shipSection;
    }
    
@@ -11,7 +15,7 @@ public class GridSquare{
    }
    
    public boolean isOccupied(){
-      return (shipSection != null;
+      return (shipSection != null);
    }
 
 }
