@@ -6,7 +6,7 @@ public class ShipSection{
       this.hit = false;
    }
    
-   public isHit(){
+   public boolean isHit(){
       return hit;
    }
 
