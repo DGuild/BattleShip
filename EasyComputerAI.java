@@ -16,4 +16,8 @@ public class EasyComputerAI implements ComputerAI{
       return square;
    }
    
+   public GridSquare getNextMove(){
+      nextGuesses.pop();
+   }
+   
 }
