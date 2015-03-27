@@ -1,7 +1,7 @@
 public class Ship{
 
    private ShipSection[] sections;
-   String name;
+   private String name;
    
    /**
    * Creates a ship with n sections
@@ -23,6 +23,18 @@ public class Ship{
       return true;
    }
    
+   
+   /**
+   * Returns an array of icons for the ship
+   */
+   public ImageIcon[] getImage(){
+      ImageIcon[] icons = new ImageIcon[sections.length];
+      for(int i = 0; i < sections.length; i++){
+         icons[i] = sections[i].getImage();
+      }
+      return icons;
+   }
+   
    /**
    * Returns the proper name for the ship given a length i.e if given 4 returns Battleship
    */
@@ -32,6 +44,8 @@ public class Ship{
       String name = names[n-2];
       return name;
    }
+   
+   
    
    
 }
