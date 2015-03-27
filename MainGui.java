@@ -11,13 +11,14 @@ public class MainGui extends JFrame{
    private static final int WIDTH = 1000;
     private static final int HEIGHT = 1000;
     
-    private JLabel title, hShipLabel,cShipLabel, perimeterL;
+    private JLabel title, hShipLabel,cShipLabel, pshipYard, cshipYard;
     private JTextField lengthTF, widthTF, areaTF, perimeterTF;
     private JButton calculateB, exitB;
     private Grid board = new Grid();
-    private Player player = new Player();
-    private Computer computer= new Computer();
+    //Player player= new Player();
+    ComputerPlayer computer= new ComputerPlayer();
    // private BufferedImage myPicture;
+    Fleet fleet= new Fleet();
     
      //picture
        public MainGui(){
@@ -25,12 +26,12 @@ public class MainGui extends JFrame{
         hShipLabel = new JLabel("Player Ships", SwingConstants.CENTER);
         cShipLabel = new JLabel("Computer Ships", SwingConstants.CENTER);
         //gameBoard= new JLabel("",SwingConstants.RIGHT);
-        perimeterL = new JLabel("Perimeter: ", SwingConstants.RIGHT);
         //various counters need to show how many ships for each side
+        pshipYard= new JLabel();
+        cshipYard= new JLabel("ShipYard");
         lengthTF = new JTextField(10);
         widthTF = new JTextField(10);
         areaTF = new JTextField(10);
-        perimeterTF = new JTextField(10);
          
         //Buttons too:
         calculateB = new JButton("Calculate");
@@ -42,25 +43,45 @@ public class MainGui extends JFrame{
         //Get the content pane (CP).
         Container pane = getContentPane();
         JPanel grid= new JPanel();
-         
         //Set the layout.
         //paint a grid for the battleship bit
         //Image background = Toolkit.getDefaultToolkit().createImage("background.png");
                 //paintComponent(gameBoard);
+                //set up game board
         pane.setLayout(new GridLayout(3, 3));
         grid.setLayout(new GridLayout(10,10));
-        ImageIcon image2 = new ImageIcon("square.png");
+        ImageIcon image2 = new ImageIcon("shipSection.png");
         ImageIcon image3 = resizeImage(image2);
-        //for(int i=0; i<100; i++){
-           JLabel tile = new JLabel(image3);
-           grid.add(tile);
-        //}
+        for(int i=0; i<100; i++){
+         JLabel tile = new JLabel(image3);
+         grid.add(tile);
+        }
+        int shipnum;
+        //set up shipyard
+        JPanel shipstuff= new JPanel();
+        shipstuff.setLayout(new GridLayout(3,1));
+        JPanel shipx= new JPanel();
+        JPanel shipy= new JPanel();
+        JButton flip= new JButton("Flip");
+        flip.addActionListener( new ActionListener() {
+       public void actionPerformed(ActionEvent e)
+       {
+           shipx.repaint(fleet.
+           shipx.revalidate();
+       }
+         });
+
+        shipstuff.add(shipx);
+        shipstuff.add(shipy);
+        shipstuff.add(flip);
+        
+        //fun stuff
         pane.add(hShipLabel);
         pane.add(title);
         pane.add(cShipLabel);
-        pane.add(perimeterL);
+        pane.add(shipstuff);
         pane.add(grid);
-        pane.add(widthTF);
+        pane.add(cshipYard);
        // pane.add(areaL);
         pane.add(areaTF);
         pane.add(calculateB);
@@ -74,6 +95,7 @@ public class MainGui extends JFrame{
 
    }
       public ImageIcon resizeImage(ImageIcon i){
+      /*
          Image img = i.getImage();
          //Now create a buffered image the same size as the image:
          BufferedImage bi = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
@@ -84,8 +106,21 @@ public class MainGui extends JFrame{
          //Now recreate the IconImage with the new buffered image:
          ImageIcon newIcon = new ImageIcon(bi);
          return newIcon;
+         */
+         Image image = i.getImage(); // transform it 
+         Image newimg = image.getScaledInstance(33, 33,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
+         ImageIcon b= new ImageIcon(newimg);
+         return b;
       }
+      public ImageIcon overlay(ImageIcon i){
+         return i;
+      }
+      //function to allow ship placement
+      /*public void shipPlace(){
+         for(
+      }*/
+       
       public static void main(String[] args){
-      MainGui main= new MainGui();
-   }
+         MainGui main= new MainGui();
+      }
 }
