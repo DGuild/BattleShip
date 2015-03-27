@@ -20,7 +20,9 @@ public class MediumComputerAI implements ComputerAI{
    }
    
    public GridSquare getNextMove(){
-      nextGuesses.pop();
+      GridSquare guess = nextGuesses.pop();
+      return guess
+      
    }
    
    public void toggleTargetMode(){
