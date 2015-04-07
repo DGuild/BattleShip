@@ -4,10 +4,10 @@ public class Fleet{
    int[] shipSizes= {2,3,3,4,5};
    public Fleet(){
       ships = new Ship[5];
+      int shipNum = 0; //which ship we are constructing
       for (int size : shipSizes){
-         int shipNum = 0;
-         ships[shipNum] = new Ship(shipSizes[shipNum]);
-         shipNum++;
+         ships[shipNum] = new Ship(shipSizes[shipNum]);//Initialize the ship with appropriate length
+         shipNum++; //get ready to construct next ship
       }
    }
    
@@ -16,5 +16,7 @@ public class Fleet{
       return shipSizes[count];
    }
 
-
+   // public static void main(String[] args){
+//       Fleet f = new Fleet();
+//    }
 }
