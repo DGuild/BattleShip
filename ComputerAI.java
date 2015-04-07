@@ -5,5 +5,5 @@ public interface ComputerAI{
    
    public void addMove();
    
-   public GridSquare generateRandomGridSquare();
+   public GridSquare generateRandomGridSquare(Grid g);
 }
