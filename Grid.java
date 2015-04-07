@@ -7,4 +7,9 @@ public class Grid{
          }
       }
    }
+   
+   public GridSquare getGridSquare(int col, int row){
+      GridSquare square = grid[col][row];
+      return square;
+   }
 }
