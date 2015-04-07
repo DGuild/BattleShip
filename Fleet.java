@@ -10,6 +10,7 @@ public class Fleet{
          shipNum++;
       }
    }
+   
    public int rotateShip(){
       count++;
       return shipSizes[count];
