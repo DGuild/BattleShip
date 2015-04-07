@@ -1,3 +1,4 @@
+import javax.swing.ImageIcon;
 public class Ship{
 
    private ShipSection[] sections;
@@ -8,6 +9,10 @@ public class Ship{
    */
    public Ship(int n){
       sections = new ShipSection[n];
+      //Initialize array of sections to point to ShipSection objects
+      for(int i = 0; i < n; i++){
+         sections[i] = new ShipSection();
+      }
       this.name = nameShip(n);
    }
    
