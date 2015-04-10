@@ -1,9 +1,13 @@
 public class GridSquare{
 
    ShipSection shipSection;
+   int col;
+   int row;
    
-   public GridSquare(){
+   public GridSquare(int col, int row){
       shipSection=null;
+      this.col = col;
+      this.row = row;
    }
    
    public ShipSection getShipSection(){
@@ -16,6 +20,14 @@ public class GridSquare{
    
    public boolean isOccupied(){
       return (shipSection != null);
+   }
+   
+   public int getCol(){
+      return col;
+   }
+   
+   public int getRow(){
+      return row;
    }
 
 }
