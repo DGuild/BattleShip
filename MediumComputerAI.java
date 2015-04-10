@@ -1,19 +1,25 @@
 public class MediumComputerAI implements ComputerAI{
 
    private Stack nextGuesses = new Stack();
+   private ArrayList<GridSquare> alreadyGuessedSquares = new ArrayList<GridSquare>();
    private GridSquare lastGuess;
    private boolean targetMode = false;
    private Grid grid;
    
    public void addMove(){
       if(targetMode){
-         GridSquare[] guesses = this.generateRandomGridSquare(this.grid, GridSquare lastGuess)
+         GridSquare[] guesses = this.generateRandomGridSquare(this.grid, lastGuess);
          for(GridSquare guess : guesses){
-            nextGuesses.push(guess);
+            if(!alreadyGuessedSquares.contains(guess)){
+               nextGuesses.push(guess);
+            }
          }
       }
       else{
          GridSquare guess = this.generateRandomGridSquare(this.grid);
+         while(alreadyGuessedSquares.contains(guess)){ //Get new squaure, if one is already guessed
+            guess = this.generateRandomGridSquare
+         }
          nextGuesses.push(guess);
       }
       
@@ -21,7 +27,7 @@ public class MediumComputerAI implements ComputerAI{
    
    public GridSquare getNextMove(){
       GridSquare guess = nextGuesses.pop();
-      return guess
+      return guess;
       
    }
    
@@ -34,7 +40,7 @@ public class MediumComputerAI implements ComputerAI{
       Random r = new Random();
       int col = r.randInt(10);
       int row = r.randInt(10);
-      GridSquare square = g.getGridSquare(col row); 
+      GridSquare square = g.getGridSquare(col, row); 
       return square;
    }
    
