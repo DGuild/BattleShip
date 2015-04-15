@@ -55,10 +55,30 @@ public class MediumComputerAI implements ComputerAI{
       GridSquare[] squares = new GridSquare[4];
       int targetCol = s.getRow();
       int targetRow = s.getCol();
-      squares[0] = g.getGridSquare(targetCol, targetRow -1); //square to the top
-      squares[1] = g.getGridSquare(targetCol + 1, targetRow); //square to the right
-      squares[2] = g.getGridSquare(targetCol, targetRow + 1); //square to the bottom
-      squares[3] = g.getGridSquare(targetCol - 1, targetRow); //square to the left
+      try{
+         squares[0] = g.getGridSquare(targetCol, targetRow -1); //square to the top
+      }
+      catch (NullPointerException n){
+         break;
+      }
+      try{
+         squares[1] = g.getGridSquare(targetCol + 1, targetRow); //square to the right
+      }
+      catch (NullPointerException n){
+         break;
+      }
+      try{
+         squares[2] = g.getGridSquare(targetCol, targetRow + 1); //square to the bottom
+      }
+      catch (NullPointerException n){
+         break;
+      }
+      try{
+         squares[3] = g.getGridSquare(targetCol - 1, targetRow); //square to the left
+      }
+      catch (NullPointerException n){
+         break;
+      }
       return squares;
    }
 

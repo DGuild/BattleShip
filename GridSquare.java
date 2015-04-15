@@ -1,13 +1,16 @@
+import javax.swing.ImageIcon;
 public class GridSquare{
 
    ShipSection shipSection;
    int col;
    int row;
+   ImageIcon squareIcon;
    
    public GridSquare(int col, int row){
       shipSection=null;
       this.col = col;
       this.row = row;
+      squareIcon = "square.png"
    }
    
    public ShipSection getShipSection(){
@@ -28,6 +31,10 @@ public class GridSquare{
    
    public int getRow(){
       return row;
+   }
+   
+   public getIcon(){
+      return squareIcon;
    }
 
 }
