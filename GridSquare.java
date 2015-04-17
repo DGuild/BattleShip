@@ -5,12 +5,14 @@ public class GridSquare{
    int col;
    int row;
    ImageIcon squareIcon;
+   boolean guessed;
    
    public GridSquare(int col, int row){
       shipSection=null;
       this.col = col;
       this.row = row;
-      squareIcon = "square.png"
+      squareIcon = new ImageIcon("square.png");
+      guessed = false;
    }
    
    public ShipSection getShipSection(){
@@ -33,8 +35,29 @@ public class GridSquare{
       return row;
    }
    
-   public getIcon(){
+   public boolean isGuessed(){
+      return guessed;
+   }
+   
+   public ImageIcon getIcon(){
       return squareIcon;
+   }
+   
+   public void updateIcon(){
+      if(this.isOccupied()){
+         if(this.getShipSection().isHit()){
+            squareIcon = new ImageIcon("hit.png");
+         }
+         else{
+            squareIcon = new ImageIcon("shipSection.png");
+         }
+      }
+      else{
+         squareIcon = new ImageIcon("square.png");
+         if(this.isGuessed()){
+            squareIcon = new ImageIcon("guessed.png");
+         }
+      }
    }
 
 }
