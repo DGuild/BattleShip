@@ -8,16 +8,10 @@ import javax.imageio.*;
 import java.awt.image.BufferedImage;
 
 public class MenuGui	extends JFrame	implements ActionListener{
-	private static	final	int WIDTH =	1000;
-	private static	final	int HEIGHT = 1000;
-	final	Toolkit toolkit =	Toolkit.getDefaultToolkit();
-	final	Dimension screenSize	= toolkit.getScreenSize();
-	final	int x	= (screenSize.width - this.getWidth())	/ 2;
-	final	int y	= (screenSize.height	- this.getHeight()) / 2;
-	 
+		 
 	private JLabel	title, background, helpText;
 	private JFrame	main,	helpScreen;
-	private JPanel	screen,buttons;
+	private JPanel	screen,buttons,helpPanel;
 	private JButton play,help,exit;
 	private JFrame	about;
 		
@@ -67,9 +61,26 @@ public class MenuGui	extends JFrame	implements ActionListener{
    	main.repaint();
    	
    	helpScreen = new JFrame();
-   	helpScreen.setSize(WIDTH, HEIGHT);
-   	helpText	= new	JLabel("test");
-   	helpScreen.add(helpText);
+      helpScreen.setLayout(null);
+   	helpScreen.setSize(1000,1000);
+      helpScreen.getContentPane().setBackground(new Color(250, 220, 150));
+      
+      // JPanel helpPanel = new JPanel();
+//       helpPanel.setOpaque(false);
+//       helpPanel.setSize(1000,1000);
+//       helpPanel.setLocation(0,0);
+      
+      
+      
+   	helpText	= new	JLabel("test bla bla blabla bla bal abl abl ab");
+      helpText.setBackground(Color.WHITE);
+      helpText.setSize(500,50);
+      helpText.setOpaque(true);      
+      helpText.setLocation(250,300);
+      
+   	//helpPanel.add(helpText);
+      //helpScreen.add(helpText);  
+      helpScreen.add(helpText);
 	}
 	public void	actionPerformed(ActionEvent e){
 		if(e.getSource() == play){
