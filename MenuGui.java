@@ -9,7 +9,8 @@ import java.awt.image.BufferedImage;
 
 public class MenuGui	extends JFrame	implements ActionListener{
 		 
-	private JLabel	title, background, helpText;
+	private JLabel	title, background, helpTitle;
+   private JTextArea helpText; 
 	private JFrame	main,	helpScreen;
 	private JPanel	screen,buttons,helpPanel;
 	private JButton play,help,exit;
@@ -64,23 +65,33 @@ public class MenuGui	extends JFrame	implements ActionListener{
       helpScreen.setLayout(null);
    	helpScreen.setSize(1000,1000);
       helpScreen.getContentPane().setBackground(new Color(250, 220, 150));
+      helpScreen.setResizable(false);
       
-      // JPanel helpPanel = new JPanel();
-//       helpPanel.setOpaque(false);
-//       helpPanel.setSize(1000,1000);
-//       helpPanel.setLocation(0,0);
+      JPanel helpPanel = new JPanel();
+      helpPanel.setOpaque(true);
+      helpPanel.setBackground(Color.WHITE);
+      helpPanel.setSize(700,700);
+      helpPanel.setLocation(150,100);
       
+      helpTitle = new JLabel("How To Play");
+      helpTitle.setFont(new Font("arial", Font.BOLD,	40));
+      helpTitle.setSize(200,50);
+      helpTitle.setLocation(250,20);
+      helpPanel.add(helpTitle);
       
-      
-   	helpText	= new	JLabel("test bla bla blabla bla bal abl abl ab");
-      helpText.setBackground(Color.WHITE);
-      helpText.setSize(500,50);
-      helpText.setOpaque(true);      
-      helpText.setLocation(250,300);
-      
-   	//helpPanel.add(helpText);
-      //helpScreen.add(helpText);  
-      helpScreen.add(helpText);
+      String helpWriteup = "Text for help will be here " +
+                           "when we have a finalized game";
+                           
+      helpText = new JTextArea(helpWriteup);
+      //helpText.setLineWrap(true);
+      //helpText.setWrapStyleWord(true);
+      helpText.setEditable(false);
+      helpText.setFont(new Font("serif", Font.PLAIN, 20));
+      helpText.setLocation(50,300);
+      helpText.setSize(500,200);
+      helpPanel.add(helpText);
+   	  
+      helpScreen.add(helpPanel);
 	}
 	public void	actionPerformed(ActionEvent e){
 		if(e.getSource() == play){
@@ -91,7 +102,8 @@ public class MenuGui	extends JFrame	implements ActionListener{
 		}
 		if(e.getSource() == help){			  
 			helpScreen.setVisible(true);
-         helpScreen.setLocationRelativeTo(null);		 
+         
+         helpScreen.setLocationRelativeTo(null);
 		}
       if(e.getSource() == exit){
          System.exit(0);
