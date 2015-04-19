@@ -42,13 +42,26 @@ public class MenuGui	extends JFrame implements ActionListener{
 //    
 //    screen.add(buttons);
 
-   JPanel screen = new JPanel(new BorderLayout());
+   JPanel screen = new JPanel();
+   screen.setLayout(null);
+   screen.setSize(WIDTH,HEIGHT);
+   screen.setLocation(0,0);
+   screen.setBackground(new Color(115, 185, 105));
+   
    buttons = new JPanel();
-   buttons.setLayout(new BoxLayout(buttons, BoxLayout.PAGE_AXIS));
+   buttons.setLocation(250,250);
+   buttons.setSize(500,500);
+   buttons.setLayout(null);
+   
    play = new JButton("Play Game!");
    play.addActionListener(this);
+   play.setSize(250,50);
+   play.setLocation(125,200);
+   
    help = new JButton("How to Play");
    help.addActionListener(this);
+   help.setSize(250,50);
+   help.setLocation(125,280);
    
    buttons.add(play);
    buttons.add(help);
@@ -57,7 +70,11 @@ public class MenuGui	extends JFrame implements ActionListener{
    add(screen);
   
       
-   setSize(WIDTH, HEIGHT);
+   //setMinimumSize(new Dimension(WIDTH,HEIGHT));
+   //setMaximumSize(new Dimension(WIDTH,HEIGHT));
+   //setPreferredSize(new Dimension(WIDTH,HEIGHT));
+   setSize(WIDTH,HEIGHT);
+   setResizable(false);
    setVisible(true);
    setDefaultCloseOperation(EXIT_ON_CLOSE);
    
