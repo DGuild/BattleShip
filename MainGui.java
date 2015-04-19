@@ -52,7 +52,7 @@ public class MainGui extends JFrame{
                 //set up game board
         pane.setLayout(new GridLayout(3, 3));
         grid.setLayout(new GridLayout(10,10));
-        ImageIcon image2 = new ImageIcon("shipSection.png");
+        ImageIcon image2 = new ImageIcon("square.png");
         ImageIcon image3 = resizeImage(image2);
         for(int i=0; i<100; i++){
          JLabel tile = new JLabel(image3);
