@@ -24,7 +24,7 @@ public class Grid{
          for (int j=0;j<10;j++){
              ImageIcon icon = grid[i][j].getIcon(); //Get the icon from the gridsquare
              icon = resizeImage(icon);
-             JLabel l = new JLabel(icon); //Put the icon on a label
+             JButton l = new JButton(icon); //Put the icon on a label
              jp.add(l);
          }
       }
