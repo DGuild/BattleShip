@@ -21,6 +21,10 @@ public class MainGui extends JFrame{
     ComputerPlayer computer= new ComputerPlayer();
    // private BufferedImage myPicture;
     Fleet fleet= new Fleet();
+    Ship[] ships=fleet.returnShip();
+    JPanel shipHere= new JPanel();
+
+
     
      //picture
        public MainGui(){
@@ -58,24 +62,30 @@ public class MainGui extends JFrame{
          JLabel tile = new JLabel(image3);
          grid.add(tile);
         }
-
-        //set up shipyard
+         //set up shipyard
         JPanel shipstuff= new JPanel();
-        shipstuff.setLayout(new GridLayout(3,1));
-        JPanel shipx= new JPanel();
-        shipx.setLayout(new GridLayout(1,5));
-        JPanel shipy= new JPanel();
-        shipy.setLayout(new GridLayout(5,1));
+        shipstuff.setLayout(new GridLayout(2,1));
+        //JPanel shipx= new JPanel();
+        //shipx.setLayout(new GridLayout(1,5));
+        //JPanel shipy= new JPanel();
+        //shipy.setLayout(new GridLayout(5,1));
         JPanel buttons= new JPanel();
         buttons.setLayout(new GridLayout(1,2));
         JButton flip= new JButton("Flip");
         JButton next= new JButton("Next");
         buttons.add(flip);
         buttons.add(next);
-        Ship[] ships=fleet.returnShip();
+        
+        
+        //Ship[] ships=fleet.returnShip();
         flip.addActionListener( new ActionListener() {
        public void actionPerformed(ActionEvent e)
        {
+       
+         shipHere=drawShip(shipnum);
+         shipHere.repaint();
+         shipHere.revalidate();
+         /*
          if(shipx!=null){
            ImageIcon[] icons= ships[shipnum].getImage();
            //JPanel shipJ= new JPanel();
@@ -91,9 +101,9 @@ public class MainGui extends JFrame{
                   iconNum++;
                   shipy.removeAll();
               }
-              shipx.repaint();
-              //shipx.repaint(shipJ);
-              shipx.revalidate();
+             shipx.repaint();
+             
+             shipx.revalidate();
            }else{
               for(int i=0;i<icons.length;i++){
                   ImageIcon newIcon= (icons[iconNum]);
@@ -104,7 +114,6 @@ public class MainGui extends JFrame{
                   shipx.removeAll();
               }
               shipy.repaint();
-              //shipx.repaint(shipJ);
               shipy.revalidate();
 
            }
@@ -115,7 +124,8 @@ public class MainGui extends JFrame{
            shipx.repaint();
            shipx.revalidate();
            rotationNum++;
-       }
+           */
+       
        }
          });
         
@@ -124,10 +134,7 @@ public class MainGui extends JFrame{
        {
          rotationNum=0;
          shipnum++;
-         shipx.repaint();
-         shipy.repaint();
-         shipx.revalidate();
-         shipy.revalidate();
+         shipHere.repaint();
          ImageIcon[] icons= ships[shipnum].getImage();
          int iconNum=0;
           for(int i=0;i<icons.length;i++){
@@ -135,17 +142,18 @@ public class MainGui extends JFrame{
                   newIcon=resizeImage(newIcon);
                   //newicon in here
                   JLabel shipPart= new JLabel(newIcon);
-                  shipx.add(shipPart);
+                  shipHere.add(shipPart);
                   iconNum++;
               }
-          shipx.repaint();
-          shipx.revalidate();
+          shipHere.repaint();
+          shipHere.revalidate();
        }
          });
 
 
-        shipstuff.add(shipx);
-        shipstuff.add(shipy);
+        //shipstuff.add(shipx);
+        //shipstuff.add(shipy);
+        shipstuff.add(shipHere);
         shipstuff.add(buttons);
         
         //fun stuff
@@ -185,9 +193,56 @@ public class MainGui extends JFrame{
          ImageIcon b= new ImageIcon(newimg);
          return b;
       }
-      public ImageIcon overlay(ImageIcon i){
+     /* public ImageIcon overlay(ImageIcon j){
          return i;
+      }*/
+      public JPanel drawShip(int j){
+           ImageIcon[] icons= ships[j].getImage();
+           JPanel newPan= new JPanel();
+           int iconNum=0;
+           if(rotationNum%2!=0){
+              JPanel shipx=new JPanel();
+              shipx.setLayout(new GridLayout(1,5));
+              for(int i=0;i<icons.length;i++){
+                  ImageIcon newIcon= (icons[iconNum]);
+                  newIcon=resizeImage(newIcon);
+                  JLabel shipPart= new JLabel(newIcon);
+                  
+                 // shipx.add(shipPart);
+                  //iconNum++;
+                  //shipy.removeAll();
+                  newPan.add(shipx);
+              }
+             //shipx.repaint();
+             
+             //shipx.revalidate();
+          
+           }else{
+              for(int i=0;i<icons.length;i++){
+                  JPanel shipy=new JPanel();
+                  shipy.setLayout(new GridLayout(5,1));
+                  ImageIcon newIcon= (icons[iconNum]);
+                  newIcon= resizeImage(newIcon);
+                  JLabel shipPart= new JLabel(newIcon);
+                  //shipy.add(shipPart); 
+                  //iconNum++;
+                  //shipx.removeAll();
+                  newPan.add(shipy);
+              }
+             // shipy.repaint();
+             // shipy.revalidate();
+
+           }
+           //shipy.repaint();
+           //shipx.repaint(shipJ);
+           //shipy.revalidate();   
+           //shipx.repaint();
+           //shipx.revalidate();
+           rotationNum++;  
+           return newPan;
+
       }
+      
       //function to allow ship placement
       /*public void shipPlace(){
          for(
