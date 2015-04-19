@@ -6,9 +6,10 @@ public class GridIconTestGUI extends JFrame{
    private Grid g;
    
    public GridIconTestGUI(){
+      Container pane = getContentPane();
       g = new Grid();
       panel = g.drawGrid();
-      this.add(panel);;
+      pane.add(panel);
       this.pack();
       this.setVisible(true);
    }
