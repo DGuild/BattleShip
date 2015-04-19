@@ -46,7 +46,11 @@ public class MenuGui	extends JFrame implements ActionListener{
    screen.setLayout(null);
    screen.setSize(WIDTH,HEIGHT);
    screen.setLocation(0,0);
-   screen.setBackground(new Color(115, 185, 105));
+   
+   background = new JLabel(new ImageIcon("battleship_background.png"));//LOOKIT IT'S PRETTY
+   background.setSize(1000,1000);
+   background.setLocation(0,0);
+   screen.add(background);
    
    buttons = new JPanel();
    buttons.setLocation(250,250);
