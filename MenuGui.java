@@ -66,8 +66,8 @@ public class MenuGui	extends JFrame implements ActionListener{
 	}
    public void actionPerformed(ActionEvent e){
       if(e.getSource() == play){
-         //MainGui game = new MainGui();
-         //game.setVisible(true);
+         MainGui game = new MainGui();
+         game.setVisible(true);
       }
       if(e.getSource() == help){         
          helpScreen.setVisible(true);         
