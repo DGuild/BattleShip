@@ -13,7 +13,7 @@ public class MenuGui	extends JFrame implements ActionListener{
 	
    private JLabel title, background, helpText;
    private JFrame main, helpScreen;
-   private JPanel screen,buttons;
+   private JPanel screen,buttons;//,helpScreen;
    private JButton play,help;
    private JFrame about;
    
@@ -42,7 +42,7 @@ public class MenuGui	extends JFrame implements ActionListener{
 //    
 //    screen.add(buttons);
 
-   JPanel screen = new JPanel(new FlowLayout());
+   JPanel screen = new JPanel(new BorderLayout());
    buttons = new JPanel();
    buttons.setLayout(new BoxLayout(buttons, BoxLayout.PAGE_AXIS));
    play = new JButton("Play Game!");
@@ -65,15 +65,15 @@ public class MenuGui	extends JFrame implements ActionListener{
    helpScreen.setSize(WIDTH, HEIGHT);
    helpText = new JLabel("test");
    helpScreen.add(helpText);
+   //screen.add(helpScreen);
 	}
    public void actionPerformed(ActionEvent e){
       if(e.getSource() == play){
          //MainGui game = new MainGui();
          //game.setVisible(true);
       }
-      if(e.getSource() == help){
-         
-         helpScreen.setVisible(true);
+      if(e.getSource() == help){         
+         helpScreen.setVisible(true);         
       }
    }
    
