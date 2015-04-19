@@ -8,6 +8,8 @@ import javax.imageio.*;
 import java.awt.image.BufferedImage;
 
 public class MainGui extends JFrame{
+   int shipnum= -1;
+   int rotationNum=0;
    private static final int WIDTH = 1000;
     private static final int HEIGHT = 1000;
     
@@ -34,11 +36,11 @@ public class MainGui extends JFrame{
         areaTF = new JTextField(10);
          
         //Buttons too:
-        calculateB = new JButton("Calculate");
+        calculateB = new JButton("");
         exitB = new JButton("Exit");
         
         //Set the window's title.
-        setTitle("Sample Title: Area of a Rectangle");
+        setTitle("Battleship.exe");
          
         //Get the content pane (CP).
         Container pane = getContentPane();
@@ -50,30 +52,101 @@ public class MainGui extends JFrame{
                 //set up game board
         pane.setLayout(new GridLayout(3, 3));
         grid.setLayout(new GridLayout(10,10));
-        ImageIcon image2 = new ImageIcon("shipSection.png");
+        ImageIcon image2 = new ImageIcon("square.png");
         ImageIcon image3 = resizeImage(image2);
         for(int i=0; i<100; i++){
          JLabel tile = new JLabel(image3);
          grid.add(tile);
         }
-        int shipnum;
+
         //set up shipyard
         JPanel shipstuff= new JPanel();
         shipstuff.setLayout(new GridLayout(3,1));
         JPanel shipx= new JPanel();
+        shipx.setLayout(new GridLayout(1,5));
         JPanel shipy= new JPanel();
+        shipy.setLayout(new GridLayout(5,1));
+        JPanel buttons= new JPanel();
+        buttons.setLayout(new GridLayout(1,2));
         JButton flip= new JButton("Flip");
+        JButton next= new JButton("Next");
+        buttons.add(flip);
+        buttons.add(next);
+        Ship[] ships=fleet.returnShip();
         flip.addActionListener( new ActionListener() {
        public void actionPerformed(ActionEvent e)
        {
-           shipx.repaint(fleet.
+         if(shipx!=null){
+           ImageIcon[] icons= ships[shipnum].getImage();
+           //JPanel shipJ= new JPanel();
+           //shipJ.setLayout(new GridLayout(1,5));
+           int iconNum=0;
+           if(rotationNum%2!=0){
+              for(int i=0;i<icons.length;i++){
+                  ImageIcon newIcon= (icons[iconNum]);
+                  newIcon=resizeImage(newIcon);
+                  JLabel shipPart= new JLabel(newIcon);
+                  
+                  shipx.add(shipPart);
+                  iconNum++;
+                  shipy.removeAll();
+              }
+              shipx.repaint();
+              //shipx.repaint(shipJ);
+              shipx.revalidate();
+           }else{
+              for(int i=0;i<icons.length;i++){
+                  ImageIcon newIcon= (icons[iconNum]);
+                  newIcon= resizeImage(newIcon);
+                  JLabel shipPart= new JLabel(newIcon);
+                  shipy.add(shipPart); 
+                  iconNum++;
+                  shipx.removeAll();
+              }
+              shipy.repaint();
+              //shipx.repaint(shipJ);
+              shipy.revalidate();
+
+           }
+           iconNum=0;
+           shipy.repaint();
+           //shipx.repaint(shipJ);
+           shipy.revalidate();   
+           shipx.repaint();
            shipx.revalidate();
+           rotationNum++;
+       }
+       }
+         });
+        
+          next.addActionListener( new ActionListener() {
+       public void actionPerformed(ActionEvent e)
+       {
+         rotationNum=0;
+         shipnum++;
+         shipx.repaint();
+         shipy.repaint();
+         shipx.revalidate();
+         shipy.revalidate();
+         ImageIcon[] icons= ships[shipnum].getImage();
+         int iconNum=0;
+          for(int i=0;i<icons.length;i++){
+                  ImageIcon newIcon= (icons[iconNum]);
+                  newIcon=resizeImage(newIcon);
+                  //newicon in here
+                  JLabel shipPart= new JLabel(newIcon);
+                  shipx.add(shipPart);
+                  iconNum++;
+              }
+          shipx.repaint();
+          shipx.revalidate();
        }
          });
 
+
         shipstuff.add(shipx);
         shipstuff.add(shipy);
-        shipstuff.add(flip);
+        shipstuff.add(buttons);
         
         //fun stuff
         pane.add(hShipLabel);
@@ -99,7 +172,7 @@ public class MainGui extends JFrame{
          Image img = i.getImage();
          //Now create a buffered image the same size as the image:
          BufferedImage bi = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-         //Then blit the icon image to the buffered image, and resize it as you do so:
+         //Then the icon image to the buffered image, and resize it as you do so:
          Graphics g = bi.createGraphics();
          g.drawImage(img, 0, 0, 33, 33, null);
          //(The code above may be incorrect - check the docs)

@@ -15,6 +15,10 @@ public class Fleet{
       count++;
       return shipSizes[count];
    }
+   
+   public Ship[] returnShip(){
+      return ships;
+   }
 
    // public static void main(String[] args){
 //       Fleet f = new Fleet();
