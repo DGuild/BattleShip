@@ -21,8 +21,12 @@ public class MainGui extends JFrame{
     ComputerPlayer computer= new ComputerPlayer();
    // private BufferedImage myPicture;
     Fleet fleet= new Fleet();
-    Ship[] ships=fleet.returnShip();
-    JPanel shipHere= new JPanel();
+    JPanel shipStuff;
+    Ship[] ships;
+    Ship currShip;
+    JPanel shipYard;
+    Grid grid = new Grid();
+    
 
 
     
@@ -48,27 +52,24 @@ public class MainGui extends JFrame{
          
         //Get the content pane (CP).
         Container pane = getContentPane();
-        JPanel grid= new JPanel();
+        
         //Set the layout.
         //paint a grid for the battleship bit
         //Image background = Toolkit.getDefaultToolkit().createImage("background.png");
                 //paintComponent(gameBoard);
                 //set up game board
         pane.setLayout(new GridLayout(3, 3));
-        grid.setLayout(new GridLayout(10,10));
-        ImageIcon image2 = new ImageIcon("square.png");
-        ImageIcon image3 = resizeImage(image2);
-        for(int i=0; i<100; i++){
-         JLabel tile = new JLabel(image3);
-         grid.add(tile);
-        }
-         //set up shipyard
-        JPanel shipstuff= new JPanel();
-        shipstuff.setLayout(new GridLayout(2,1));
-        //JPanel shipx= new JPanel();
-        //shipx.setLayout(new GridLayout(1,5));
-        //JPanel shipy= new JPanel();
-        //shipy.setLayout(new GridLayout(5,1));
+        
+        //Setup the central grid
+        JPanel centerGrid= grid.drawGrid();
+        
+        
+        //set up shipyard
+        shipStuff = new JPanel();
+        ships = fleet.returnShip();
+        currShip = ships[0];
+        shipYard= drawShip(currShip);
+        //The shipyard buttons
         JPanel buttons= new JPanel();
         buttons.setLayout(new GridLayout(1,2));
         JButton flip= new JButton("Flip");
@@ -76,92 +77,45 @@ public class MainGui extends JFrame{
         buttons.add(flip);
         buttons.add(next);
         
-        
-        //Ship[] ships=fleet.returnShip();
+        /**
+        * FLIP BUTTON ACTION
+        */
         flip.addActionListener( new ActionListener() {
        public void actionPerformed(ActionEvent e)
        {
        
-         shipHere=drawShip(shipnum);
-         shipHere.repaint();
-         shipHere.revalidate();
-         /*
-         if(shipx!=null){
-           ImageIcon[] icons= ships[shipnum].getImage();
-           //JPanel shipJ= new JPanel();
-           //shipJ.setLayout(new GridLayout(1,5));
-           int iconNum=0;
-           if(rotationNum%2!=0){
-              for(int i=0;i<icons.length;i++){
-                  ImageIcon newIcon= (icons[iconNum]);
-                  newIcon=resizeImage(newIcon);
-                  JLabel shipPart= new JLabel(newIcon);
-                  
-                  shipx.add(shipPart);
-                  iconNum++;
-                  shipy.removeAll();
-              }
-             shipx.repaint();
-             
-             shipx.revalidate();
-           }else{
-              for(int i=0;i<icons.length;i++){
-                  ImageIcon newIcon= (icons[iconNum]);
-                  newIcon= resizeImage(newIcon);
-                  JLabel shipPart= new JLabel(newIcon);
-                  shipy.add(shipPart); 
-                  iconNum++;
-                  shipx.removeAll();
-              }
-              shipy.repaint();
-              shipy.revalidate();
-
-           }
-           iconNum=0;
-           shipy.repaint();
-           //shipx.repaint(shipJ);
-           shipy.revalidate();   
-           shipx.repaint();
-           shipx.revalidate();
-           rotationNum++;
-           */
+         shipStuff.remove(shipYard);
+         currShip.rotate();
+         shipYard = drawShip(currShip);
+         shipStuff.add(shipYard, 0);
+         shipStuff.repaint();
+         shipStuff.revalidate();
        
        }
          });
         
-          next.addActionListener( new ActionListener() {
-       public void actionPerformed(ActionEvent e)
-       {
-         rotationNum=0;
-         shipnum++;
-         shipHere.repaint();
-         ImageIcon[] icons= ships[shipnum].getImage();
-         int iconNum=0;
-          for(int i=0;i<icons.length;i++){
-                  ImageIcon newIcon= (icons[iconNum]);
-                  newIcon=resizeImage(newIcon);
-                  //newicon in here
-                  JLabel shipPart= new JLabel(newIcon);
-                  shipHere.add(shipPart);
-                  iconNum++;
-              }
-          shipHere.repaint();
-          shipHere.revalidate();
-       }
-         });
+        
+        /**
+        * NEXT BUTTON ACTION
+        */
+       //    next.addActionListener( new ActionListener() {
+//        public void actionPerformed(ActionEvent e)
+//        {
+//          ;
+//          });
 
 
         //shipstuff.add(shipx);
         //shipstuff.add(shipy);
-        shipstuff.add(shipHere);
-        shipstuff.add(buttons);
+        shipStuff.add(shipYard);
+        shipStuff.add(buttons);
         
         //fun stuff
         pane.add(hShipLabel);
         pane.add(title);
         pane.add(cShipLabel);
-        pane.add(shipstuff);
-        pane.add(grid);
+        pane.add(shipStuff);
+        pane.add(centerGrid);
         pane.add(cshipYard);
        // pane.add(areaL);
         pane.add(areaTF);
@@ -196,51 +150,30 @@ public class MainGui extends JFrame{
      /* public ImageIcon overlay(ImageIcon j){
          return i;
       }*/
-      public JPanel drawShip(int j){
-           ImageIcon[] icons= ships[j].getImage();
-           JPanel newPan= new JPanel();
-           int iconNum=0;
-           if(rotationNum%2!=0){
-              JPanel shipx=new JPanel();
-              shipx.setLayout(new GridLayout(1,5));
-              for(int i=0;i<icons.length;i++){
-                  ImageIcon newIcon= (icons[iconNum]);
-                  newIcon=resizeImage(newIcon);
-                  JLabel shipPart= new JLabel(newIcon);
-                  
-                 // shipx.add(shipPart);
-                  //iconNum++;
-                  //shipy.removeAll();
-                  newPan.add(shipx);
-              }
-             //shipx.repaint();
-             
-             //shipx.revalidate();
-          
-           }else{
-              for(int i=0;i<icons.length;i++){
-                  JPanel shipy=new JPanel();
-                  shipy.setLayout(new GridLayout(5,1));
-                  ImageIcon newIcon= (icons[iconNum]);
-                  newIcon= resizeImage(newIcon);
-                  JLabel shipPart= new JLabel(newIcon);
-                  //shipy.add(shipPart); 
-                  //iconNum++;
-                  //shipx.removeAll();
-                  newPan.add(shipy);
-              }
-             // shipy.repaint();
-             // shipy.revalidate();
-
-           }
-           //shipy.repaint();
-           //shipx.repaint(shipJ);
-           //shipy.revalidate();   
-           //shipx.repaint();
-           //shipx.revalidate();
-           rotationNum++;  
-           return newPan;
-
+      
+      /**
+      *  Returns a JPanel to display a ship horizontally or vertically
+      */ 
+      public JPanel drawShip(Ship s){
+         JPanel shipPanel;
+         
+         //Create a JLabel for either horizontal or vertical orientation
+         if(s.isHorizontal()){
+            shipPanel = new JPanel(new GridLayout(1, s.getLength()));
+         }
+         else{
+            shipPanel = new JPanel(new GridLayout(s.getLength(), 1));
+         }
+         
+         //Add JLabels for ShipSections
+         for(int i = 0; i < s.getLength(); i++){
+            ImageIcon shipSectionIcon = new ImageIcon("shipSection.png");
+            shipSectionIcon = resizeImage(shipSectionIcon);
+            JLabel shipSectionLabel = new JLabel(shipSectionIcon);
+            shipPanel.add(shipSectionLabel);
+         }
+         
+         return shipPanel;
       }
       
       //function to allow ship placement
