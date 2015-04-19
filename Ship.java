@@ -3,6 +3,8 @@ public class Ship{
 
    private ShipSection[] sections;
    private String name;
+   private boolean horizontal;
+   private int length;
    
    /**
    * Creates a ship with n sections
@@ -14,6 +16,8 @@ public class Ship{
          sections[i] = new ShipSection();
       }
       this.name = nameShip(n);
+      this.length = n;
+      this.horizontal = true;
    }
    
    /**
@@ -50,7 +54,23 @@ public class Ship{
       return name;
    }
    
+   /**
+   * Returns the horizontal orientation
+   */
+   public boolean isHorizontal(){
+      return horizontal;
+   }
    
+   public int getLength(){
+      return length;
+   }
+   
+   /**
+   * Toggles ship orientation
+   */
+   public void rotate(){
+      this.horizontal = !horizontal;
+   }
    
    
 }
