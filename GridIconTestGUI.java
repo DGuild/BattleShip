@@ -13,9 +13,11 @@ public class GridIconTestGUI extends JFrame{
       this.pack();
       this.setSize(334, 334);
       this.setVisible(true);
+      this.setLocationRelativeTo(null);
    }
    public void placeShip(Ship i){
-      Boolean hor= i.isHorizontal;
+      Boolean hor= i.isHorizontal();
+      
    }
    
    public static void main(String[] args){
