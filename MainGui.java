@@ -218,53 +218,83 @@ public class MainGui extends JFrame{
                 if(setupMode){
                   ShipSection[] sections = currShip.getSections();
                   //Check if ship will fit
-                  //If it does, update gridsquare
+                  boolean flag = false;
                   for(int i=0;i<sections.length;i++){
                      if(currShip.isHorizontal()){
-                        
-                        //Update the logical gridsquares to be occupied, and retrieve icons for visual grid
-                        GridSquare gs = board.getGridSquare(square.getRow() + i, square.getCol());
-                        gs.setShipSection(sections[i]);
-                        gs.updateIcon();
-                        ImageIcon buttIcon = gs.getIcon();
-                        buttIcon = resizeImage(buttIcon);
-                        
-                        //Update the buttons on the grid to reflect ship being placed there
-                        JButton butt = getGridButton(gs.getRow(), gs.getCol());
-                        butt.setIcon(buttIcon);
-                        butt.repaint();
-                        butt.revalidate();
-                        
-                        
+                        try{
+                           GridSquare gs = board.getGridSquare(square.getRow() + i, square.getCol());
+                           if(gs.isOccupied()) flag = true;
+                        }
+                        catch(ArrayIndexOutOfBoundsException a){
+                           flag = true;
+                        }
                      }
                      else{
-                        GridSquare gs = board.getGridSquare(square.getRow(), square.getCol() + i);
-                        gs.setShipSection(sections[i]);
-                        gs.updateIcon();
-                        ImageIcon buttIcon = gs.getIcon();
-                        buttIcon = resizeImage(buttIcon);
-                        
-                        JButton butt = getGridButton(gs.getRow(), gs.getCol());
-                        butt.setIcon(buttIcon);
-                        butt.repaint();
-                        butt.revalidate();
+                        try{
+                           GridSquare gs = board.getGridSquare(square.getRow(), square.getCol() + i);
+                           if(gs.isOccupied()) flag = true;
+                        }
+                        catch(ArrayIndexOutOfBoundsException a){
+                           flag = true;
+                        }
                      }
                   }
+                  //If it does, update gridsquare
+                  if(!flag){
+                     for(int i=0;i<sections.length;i++){
+                     
+                        if(currShip.isHorizontal()){
+                           
+                           //Update the logical gridsquares to be occupied, and retrieve icons for visual grid
+                           GridSquare gs = board.getGridSquare(square.getRow() + i, square.getCol());
+                           gs.setShipSection(sections[i]);
+                           gs.updateIcon();
+                           ImageIcon buttIcon = gs.getIcon();
+                           buttIcon = resizeImage(buttIcon);
+                           
+                           //Update the buttons on the grid to reflect ship being placed there
+                           JButton butt = getGridButton(gs.getRow(), gs.getCol());
+                           butt.setIcon(buttIcon);
+                           butt.repaint();
+                           butt.revalidate();
+                           
+                           
+                        }
+                        else{
+                           GridSquare gs = board.getGridSquare(square.getRow(), square.getCol() + i);
+                           gs.setShipSection(sections[i]);
+                           gs.updateIcon();
+                           ImageIcon buttIcon = gs.getIcon();
+                           buttIcon = resizeImage(buttIcon);
+                           
+                           JButton butt = getGridButton(gs.getRow(), gs.getCol());
+                           butt.setIcon(buttIcon);
+                           butt.repaint();
+                           butt.revalidate();
+                        }
+                     
+                     }
+                  
                   //Redraw ShipYard
                   //Update the ship yard with next ship
-                  try{
-                     currShipNum++;
-                     currShip = ships[currShipNum];
-                     shipStuff.remove(shipYard);
-                     shipYard = drawShip(currShip);
-                     shipStuff.add(shipYard, 0);
-                     shipStuff.repaint();
-                     shipStuff.revalidate();
+                     try{
+                        currShipNum++;
+                        currShip = ships[currShipNum];
+                        shipStuff.remove(shipYard);
+                        shipYard = drawShip(currShip);
+                        shipStuff.add(shipYard, 0);
+                        shipStuff.repaint();
+                        shipStuff.revalidate();
+                     }
+                     catch(IndexOutOfBoundsException i){
+                        shipStuff.remove(shipYard);
+                        shipStuff.repaint();
+                        shipStuff.revalidate();
+                     }
                   }
-                  catch(IndexOutOfBoundsException i){
-                     shipStuff.remove(shipYard);
-                     shipStuff.repaint();
-                     shipStuff.revalidate();
+                  else{
+                     JOptionPane popUp = new JOptionPane();
+                     popUp.showMessageDialog(null, "Cannot Place Ship There.");
                   }
                 }
                 
