@@ -252,14 +252,23 @@ public class MainGui extends JFrame{
                   }
                   //Redraw ShipYard
                   //Update the ship yard with next ship
-                  currShipNum++;
-                  currShip = ships[currShipNum];
-                  shipStuff.remove(shipYard);
-                  shipYard = drawShip(currShip);
-                  shipStuff.add(shipYard, 0);
-                  shipStuff.repaint();
-                  shipStuff.revalidate();
+                  try{
+                     currShipNum++;
+                     currShip = ships[currShipNum];
+                     shipStuff.remove(shipYard);
+                     shipYard = drawShip(currShip);
+                     shipStuff.add(shipYard, 0);
+                     shipStuff.repaint();
+                     shipStuff.revalidate();
+                  }
+                  catch(IndexOutOfBoundsException i){
+                     shipStuff.remove(shipYard);
+                     shipStuff.repaint();
+                     shipStuff.revalidate();
+                  }
                 }
+                
+                //If in GAME Mode, this is what the button clicks do
                 else{
                   //
                   ;
