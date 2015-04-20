@@ -69,11 +69,8 @@ public class MainGui extends JFrame{
         shipYard= drawShip(currShip);
         //The shipyard buttons
         JPanel buttons= new JPanel();
-        buttons.setLayout(new GridLayout(1,2));
         JButton flip= new JButton("Flip");
-        JButton next= new JButton("Next");
         buttons.add(flip);
-        buttons.add(next);
         
         /**
         * FLIP BUTTON ACTION
@@ -88,6 +85,7 @@ public class MainGui extends JFrame{
          shipStuff.add(shipYard, 0);
          shipStuff.repaint();
          shipStuff.revalidate();
+         JOptionPane.showMessageDialog(null, "My Goodness, this is so concise");
        
        }
          });
