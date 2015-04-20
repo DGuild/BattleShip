@@ -10,8 +10,6 @@ import java.awt.GridLayout;
 
 
 public class Grid{
-   private static final int N = 5;
-   private final ArrayList<JButton> list = new ArrayList<JButton>();
    GridSquare grid[][]= new GridSquare[10][10];
    public Grid(){
       for (int i=0;i<10;i++){
@@ -26,39 +24,7 @@ public class Grid{
       return square;
    }
    
-   public JPanel drawGrid(){
-      JPanel jp = new JPanel();
-      jp.setLayout(new GridLayout(10,10));
-      for (int i=0;i<10;i++){
-         for (int j=0;j<10;j++){
-             JButton l=createGridButton(i,j);
-             //ImageIcon icon = grid[i][j].getIcon(); //Get the icon from the gridsquare
-             //icon = resizeImage(icon);
-             //JButton l = new JButton(icon); //Put the icon on a label
-             list.add(l);
-             jp.add(l);
-         }
-      }
-      return jp;
-   }
-   private JButton getGridButton(int r, int c) {
-        int index = r * N + c;
-        return list.get(index);
-    }
-
-    private JButton createGridButton(final int row, final int col) {
-        ImageIcon icon= grid[row][col].getIcon();
-        final JButton b = new JButton(icon);
-        b.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JButton gb = Grid.this.getGridButton(row, col);
-                System.out.println("r" + row + ",c" + col);
-            }
-        });
-        return b;
-    }
+   
    
    public ImageIcon resizeImage(ImageIcon i){
       /*
