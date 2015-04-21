@@ -281,6 +281,7 @@ public class MainGui extends JFrame{
                   }else{
                      //tell user is guessed already
                   }
+                  GridSquare cGuess= computer.madeGuess();
                 }
             }
         });
