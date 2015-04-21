@@ -26,6 +26,9 @@ public class GridSquare{
    public boolean isOccupied(){
       return (shipSection != null);
    }
+   public void setGuessed(){
+      guessed=true;
+   }
    
    public int getCol(){
       return col;
@@ -46,7 +49,7 @@ public class GridSquare{
    public void updateIcon(){
       if(this.isOccupied()){
          if(this.getShipSection().isHit()){
-            squareIcon = new ImageIcon("hit.png");
+            squareIcon = new ImageIcon("shipSplode.png");
          }
          else{
             squareIcon = new ImageIcon("shipSection.png");
@@ -55,7 +58,7 @@ public class GridSquare{
       else{
          squareIcon = new ImageIcon("square.png");
          if(this.isGuessed()){
-            squareIcon = new ImageIcon("guessed.png");
+            squareIcon = new ImageIcon("miss.png");
          }
       }
    }
