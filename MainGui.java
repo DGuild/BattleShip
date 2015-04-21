@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class MainGui extends JFrame{
-   ComputerPlayer computer= new ComputerPlayer(new EasyComputerAI(new Grid()));
+   ComputerPlayer computer;
    int shipnum= -1;
    int rotationNum=0;
    private static final int WIDTH = 1000;
@@ -60,8 +60,8 @@ public class MainGui extends JFrame{
         pane.setLayout(new GridLayout(2, 2));
         
         //Setup the central grid
-        computer.generateComputerPlayerGrid();
-        cBoard=computer.getComputerPlayerGrid();
+       // computer.generateComputerPlayerGrid();
+       // cBoard=computer.getComputerPlayerGrid();
         compGrid = drawGrid(cBoard, compGrid, cList);
         playerGrid = drawGrid(board,playerGrid, pList);
         
@@ -290,6 +290,7 @@ public class MainGui extends JFrame{
     public void mainGame(){
       this.remove(title);
       this.add(compGrid, 1);
+      computer= new ComputerPlayer(new EasyComputerAI(board));
       setupMode = false;
     }
     
