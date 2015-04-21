@@ -12,25 +12,25 @@ public class MainGui extends JFrame{
    int shipnum= -1;
    int rotationNum=0;
    private static final int WIDTH = 1000;
-    private static final int HEIGHT = 1000;
-    private static final int N = 10;
-    private final ArrayList<JButton> list = new ArrayList<JButton>();
+   private static final int HEIGHT = 1000;
+   private static final int N = 10;
+   private final ArrayList<JButton> list = new ArrayList<JButton>();
     
-    private JLabel title, pshipYard;
-    private JPanel jp;
-    private JTextField output;
-    private Grid board = new Grid();
-    private boolean setupMode = true;
-    //Player player= new Player();
-    ComputerPlayer computer= new ComputerPlayer(new EasyComputerAI(new Grid()));
+   private JLabel title, pshipYard;
+   private JPanel jp;
+   private JTextField output;
+   private Grid board = new Grid();
+   private boolean setupMode = true;
+   //Player player= new Player();
+   ComputerPlayer computer= new ComputerPlayer(new EasyComputerAI(new Grid()));
    // private BufferedImage myPicture;
-    Fleet fleet= new Fleet();
-    JPanel shipStuff;
-    Ship[] ships;
-    int currShipNum;
-    Ship currShip;
-    JPanel shipYard;
-    JPanel centerGrid;
+   Fleet fleet= new Fleet();
+   JPanel shipStuff;
+   Ship[] ships;
+   int currShipNum;
+   Ship currShip;
+   JPanel shipYard;
+   JPanel centerGrid;
     
 
 
