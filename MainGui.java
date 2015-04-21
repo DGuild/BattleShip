@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class MainGui extends JFrame{
+   ComputerPlayer computer;
    int shipnum= -1;
    int rotationNum=0;
    private static final int WIDTH = 1000;
@@ -21,11 +22,11 @@ public class MainGui extends JFrame{
    private JPanel playerGrid, compGrid;
    private JTextField output;
    private Grid board = new Grid();
+   
    private Grid cBoard = new Grid();
    private boolean setupMode = true;
    //Player player= new Player();
-   ComputerPlayer computer= new ComputerPlayer(new EasyComputerAI(new Grid()));
-   // private BufferedImage myPicture;
+      // private BufferedImage myPicture;
    Fleet fleet= new Fleet();
    JPanel shipStuff;
    Ship[] ships;
@@ -59,6 +60,8 @@ public class MainGui extends JFrame{
         pane.setLayout(new GridLayout(2, 2));
         
         //Setup the central grid
+       // computer.generateComputerPlayerGrid();
+       // cBoard=computer.getComputerPlayerGrid();
         compGrid = drawGrid(cBoard, compGrid, cList);
         playerGrid = drawGrid(board,playerGrid, pList);
         
@@ -263,17 +266,22 @@ public class MainGui extends JFrame{
                   GridSquare gs = cBoard.getGridSquare(square.getRow(), square.getCol());
                   
                   if(!(gs.isGuessed())){
+                     if(gs.isOccupied()){
+                        gs.getShipSection().getHit();
+                     }
                      gs.setGuessed();
                      gs.updateIcon();
                      ImageIcon newIcon = gs.getIcon();
                      newIcon = resizeImage(newIcon);
-                     
                      JButton icon = getGridButton(gs.getRow(), gs.getCol(), cList);
                      icon.setIcon(newIcon);
                      icon.setIcon(newIcon);
                      icon.repaint();
                      icon.revalidate();
+                  }else{
+                     //tell user is guessed already
                   }
+                  GridSquare cGuess= computer.madeGuess();
                 }
             }
         });
@@ -283,6 +291,7 @@ public class MainGui extends JFrame{
     public void mainGame(){
       this.remove(title);
       this.add(compGrid, 1);
+      computer= new ComputerPlayer(new EasyComputerAI(board));
       setupMode = false;
     }
     
