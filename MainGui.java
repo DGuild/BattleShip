@@ -218,7 +218,7 @@ public class MainGui extends JFrame{
                   //If ship fits on board, update gridsquare
                   if(board.shipFits(currShip, square)){
                   
-                     //Drew's sandbox
+                     
                      ArrayList<GridSquare> updatedSquares = board.placeShip(currShip, square);
                      for (GridSquare updatedSquare : updatedSquares){
                         ImageIcon buttIcon = updatedSquare.getIcon();
@@ -228,43 +228,8 @@ public class MainGui extends JFrame{
                         butt.repaint();
                         butt.revalidate();
                      }
-                     //End Drew's Sandbox
                      
-                     //CODE TO BE CLEANED
-                     // for(int i=0;i<sections.length;i++){
-//                      
-//                         if(currShip.isHorizontal()){
-//                            
-//                            //Update the logical gridsquares to be occupied, and retrieve icons for visual grid
-//                            GridSquare gs = board.getGridSquare(square.getRow() + i, square.getCol());
-//                            gs.setShipSection(sections[i]);
-//                            gs.updateIcon();
-//                            ImageIcon buttIcon = gs.getIcon();
-//                            buttIcon = resizeImage(buttIcon);
-//                            
-//                            //Update the buttons on the grid to reflect ship being placed there
-//                            JButton butt = getGridButton(gs.getRow(), gs.getCol());
-//                            butt.setIcon(buttIcon);
-//                            butt.repaint();
-//                            butt.revalidate();
-//                            
-//                            
-//                         }
-//                         else{
-//                            GridSquare gs = board.getGridSquare(square.getRow(), square.getCol() + i);
-//                            gs.setShipSection(sections[i]);
-//                            gs.updateIcon();
-//                            ImageIcon buttIcon = gs.getIcon();
-//                            buttIcon = resizeImage(buttIcon);
-//                            
-//                            JButton butt = getGridButton(gs.getRow(), gs.getCol());
-//                            butt.setIcon(buttIcon);
-//                            butt.repaint();
-//                            butt.revalidate();
-//                         }
-//                      
-//                      }
-                        //END CODE TO BE CLEANED
+                     
                   
                   //Redraw ShipYard
                   //Update the ship yard with next ship
