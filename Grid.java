@@ -35,7 +35,7 @@ public class Grid{
          if(s.isHorizontal()){
             try{
                GridSquare square = this.getGridSquare(gs.getRow() + i, gs.getCol());
-               if(gs.isOccupied()) fits = false;
+               if(square.isOccupied()) fits = false;
             }
             catch(ArrayIndexOutOfBoundsException a){
                fits = false;
@@ -44,7 +44,7 @@ public class Grid{
           else{
              try{
                 GridSquare square = this.getGridSquare(gs.getRow(), gs.getCol() + i);
-                if(gs.isOccupied()) fits = false;
+                if(square.isOccupied()) fits = false;
              }
              catch(ArrayIndexOutOfBoundsException a){
                 fits = false;
