@@ -11,16 +11,22 @@ public class Fleet{
       }
    }
    
-   public int rotateShip(){
-      count++;
-      return shipSizes[count];
+   public boolean allShipsSunk(){
+      boolean sunk = true;
+      for(Ship s: ships){
+         ShipSection[] sections = s.getSections();
+         for (ShipSection section : sections){
+            if(!section.isHit()){
+               sunk = false;
+            }
+         }
+      }
+      return sunk;
    }
    
    public Ship[] returnShip(){
       return ships;
    }
 
-   // public static void main(String[] args){
-//       Fleet f = new Fleet();
-//    }
+   
 }
