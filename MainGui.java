@@ -285,6 +285,7 @@ public class MainGui extends JFrame{
                      JOptionPane popUp = new JOptionPane();
                      popUp.showMessageDialog(null,"Invalid Guess");
                   }
+                  if(fleet.allShipsSunk()){gameOver(false);}
                   if(playerFinished){
                      GridSquare cGuess= computer.makeGuess();
                      if(cGuess.isOccupied()){
@@ -304,6 +305,10 @@ public class MainGui extends JFrame{
                   }
                   square.updateIcon();
                   playerFinished=false;
+                  Fleet cFleet= computer.getFleet();
+                  if(cFleet.allShipsSunk()){
+                     gameOver(true);
+                  }
                 
             }
         });
@@ -314,6 +319,15 @@ public class MainGui extends JFrame{
       this.remove(title);
       this.add(compGrid, 1);
       setupMode = false;
+    }
+    public void gameOver(Boolean i){
+      JOptionPane popUp = new JOptionPane();
+      if (i){
+         popUp.showMessageDialog(null,"Player Wins");
+      }else{
+         popUp.showMessageDialog(null,"Computer Wins");
+      }
+      System.exit(0);
     }
     
        

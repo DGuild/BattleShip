@@ -42,7 +42,7 @@ public class ComputerPlayer{
       }
       
    }
-   
+   public Fleet getFleet(){return f;}
    public GridSquare makeGuess(){
       GridSquare guess;
       ai.addMove();
