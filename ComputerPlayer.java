@@ -18,10 +18,16 @@ public class ComputerPlayer{
    public void generateComputerPlayerGrid(){
       Ship[] ships = f.returnShip();
       for(Ship ship : ships){
+         Random r = new Random();
+         //Randomly assign ship orientation
+         int randNum = r.nextInt(100);
+         if(randNum % 2 == 0){
+            ship.rotate();
+         }
          boolean fits = false;
          while(!fits){
             //Select a square at Random to place ship
-            Random r = new Random();
+            
             int col = r.nextInt(10);
             int row = r.nextInt(10);
             GridSquare gs = g.getGridSquare(col,row);
