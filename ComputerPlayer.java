@@ -36,5 +36,12 @@ public class ComputerPlayer{
       }
       
    }
+   
+   public GridSquare makeGuess(){
+      GridSquare guess;
+      ai.addMove();
+      guess = ai.getNextMove();
+      return guess;
+   }
 
 }
