@@ -14,12 +14,14 @@ public class MainGui extends JFrame{
    private static final int WIDTH = 1000;
    private static final int HEIGHT = 1000;
    private static final int N = 10;
-   private final ArrayList<JButton> list = new ArrayList<JButton>();
+   private final ArrayList<JButton> pList = new ArrayList<JButton>();
+   private final ArrayList<JButton> cList = new ArrayList<JButton>();
     
    private JLabel title, pshipYard;
-   private JPanel jp;
+   private JPanel playerGrid, compGrid;
    private JTextField output;
    private Grid board = new Grid();
+   private Grid cBoard = new Grid();
    private boolean setupMode = true;
    //Player player= new Player();
    ComputerPlayer computer= new ComputerPlayer(new EasyComputerAI(new Grid()));
@@ -30,7 +32,6 @@ public class MainGui extends JFrame{
    int currShipNum;
    Ship currShip;
    JPanel shipYard;
-   JPanel centerGrid;
     
 
 
@@ -58,7 +59,9 @@ public class MainGui extends JFrame{
         pane.setLayout(new GridLayout(2, 2));
         
         //Setup the central grid
-        centerGrid= drawGrid();
+        compGrid = drawGrid(cBoard, compGrid, cList);
+        playerGrid = drawGrid(board,playerGrid, pList);
+        
         
         
         //set up shipyard
@@ -85,7 +88,6 @@ public class MainGui extends JFrame{
          shipStuff.add(shipYard, 0);
          shipStuff.repaint();
          shipStuff.revalidate();
-         JOptionPane.showMessageDialog(null, "My Goodness, this is so concise");
        
        }
          });
@@ -110,7 +112,7 @@ public class MainGui extends JFrame{
         pane.add(output);
         pane.add(title);
         pane.add(shipStuff);
-        pane.add(centerGrid);
+        pane.add(playerGrid);
        // pane.add(areaL);
         //gameBoard.drawImage(background, 0, 0, null);
        
@@ -134,7 +136,7 @@ public class MainGui extends JFrame{
          return newIcon;
          */
          Image image = i.getImage(); // transform it 
-         Image newimg = image.getScaledInstance(33, 33,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
+         Image newimg = image.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
          ImageIcon b= new ImageIcon(newimg);
          return b;
       }
@@ -179,27 +181,27 @@ public class MainGui extends JFrame{
       *
       */
       
-      public JPanel drawGrid(){
-         jp = new JPanel();
-         jp.setLayout(new GridLayout(10,10));
+      public JPanel drawGrid(Grid g, JPanel pp, ArrayList<JButton> list){
+         pp = new JPanel();
+         pp.setLayout(new GridLayout(10,10));
          for (int i=0;i<10;i++){
             for (int j=0;j<10;j++){
-               JButton l=createGridButton(i,j);
+               JButton l=createGridButton(i,j, g, list);
                //ImageIcon icon = grid[i][j].getIcon(); //Get the icon from the gridsquare
                //icon = resizeImage(icon);
                //JButton l = new JButton(icon); //Put the icon on a label
                list.add(l);
-               jp.add(l);
+               pp.add(l);
             }
          }
-         return jp;
+         return pp;
       }
-      private JButton getGridButton(int r, int c) {
+      private JButton getGridButton(int r, int c, ArrayList<JButton> list) {
         int index = r * N + c;
         return list.get(index);
       }
 
-      private JButton createGridButton(final int row, final int col) {
+      private JButton createGridButton(final int row, final int col, Grid g, ArrayList<JButton> list) {
         final GridSquare square = board.getGridSquare(row, col);
         ImageIcon icon= square.getIcon();
         icon = resizeImage(icon);
@@ -223,7 +225,7 @@ public class MainGui extends JFrame{
                      for (GridSquare updatedSquare : updatedSquares){
                         ImageIcon buttIcon = updatedSquare.getIcon();
                         buttIcon = resizeImage(buttIcon);
-                        JButton butt = getGridButton(updatedSquare.getRow(), updatedSquare.getCol());
+                        JButton butt = getGridButton(updatedSquare.getRow(), updatedSquare.getCol(), pList);
                         butt.setIcon(buttIcon);
                         butt.repaint();
                         butt.revalidate();
@@ -246,6 +248,7 @@ public class MainGui extends JFrame{
                         shipStuff.remove(shipYard);
                         shipStuff.repaint();
                         shipStuff.revalidate();
+                        mainGame();
                      }
                   }
                   else{
@@ -257,11 +260,30 @@ public class MainGui extends JFrame{
                 //If in GAME Mode, this is what the button clicks do
                 else{
                   //
-                  ;
+                  GridSquare gs = cBoard.getGridSquare(square.getRow(), square.getCol());
+                  
+                  if(!(gs.isGuessed())){
+                     gs.setGuessed();
+                     gs.updateIcon();
+                     ImageIcon newIcon = gs.getIcon();
+                     newIcon = resizeImage(newIcon);
+                     
+                     JButton icon = getGridButton(gs.getRow(), gs.getCol(), cList);
+                     icon.setIcon(newIcon);
+                     icon.setIcon(newIcon);
+                     icon.repaint();
+                     icon.revalidate();
+                  }
                 }
             }
         });
         return b;
+    }
+    
+    public void mainGame(){
+      this.remove(title);
+      this.add(compGrid, 1);
+      setupMode = false;
     }
     
        
