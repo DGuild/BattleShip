@@ -7,6 +7,10 @@ import javax.*;
 import javax.imageio.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import  sun.audio.*;  
+import java.applet.*;
+import java.net.*;
+
 
 public class MainGui extends JFrame{
    ComputerPlayer computer;
@@ -270,7 +274,10 @@ public class MainGui extends JFrame{
                   if(!(gs.isGuessed())){
                      if(gs.isOccupied()){
                         gs.getShipSection().getHit();
-                     }
+                        playAudio("boom.wav");
+                     }else{ playAudio("sploosh.wav");}
+                     
+                    
                      gs.setGuessed();
                      gs.updateIcon();
                      ImageIcon newIcon = gs.getIcon();
@@ -329,6 +336,18 @@ public class MainGui extends JFrame{
       }
       System.exit(0);
     }
+    
+     public void playAudio(String s){
+      String fileName=s;
+      try {
+      AudioClip clip = Applet.newAudioClip(
+      new URL("file:C:/Users/ohno2_000/Documents/GitHub/battleship2/BattleShip/"+s));
+      clip.play();
+      } catch (MalformedURLException murle) {
+      System.out.println(murle);
+      }
+   }
+
     
        
       public static void main(String[] args){
