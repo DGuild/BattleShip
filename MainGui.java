@@ -6,46 +6,43 @@ import java.*;
 import javax.*;
 import javax.imageio.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class MainGui extends JFrame{
    int shipnum= -1;
    int rotationNum=0;
    private static final int WIDTH = 1000;
     private static final int HEIGHT = 1000;
+    private static final int N = 10;
+    private final ArrayList<JButton> list = new ArrayList<JButton>();
     
-    private JLabel title, hShipLabel,cShipLabel, pshipYard, cshipYard;
-    private JTextField lengthTF, widthTF, areaTF, perimeterTF;
-    private JButton calculateB, exitB;
+    private JLabel title, pshipYard;
+    private JPanel jp;
+    private JTextField output;
     private Grid board = new Grid();
+    private boolean setupMode = true;
     //Player player= new Player();
-    ComputerPlayer computer= new ComputerPlayer();
+    ComputerPlayer computer= new ComputerPlayer(new EasyComputerAI(new Grid()));
    // private BufferedImage myPicture;
     Fleet fleet= new Fleet();
     JPanel shipStuff;
     Ship[] ships;
+    int currShipNum;
     Ship currShip;
     JPanel shipYard;
-    Grid grid = new Grid();
+    JPanel centerGrid;
     
 
 
     
      //picture
        public MainGui(){
-        title = new JLabel("Begin Battleship!", SwingConstants.CENTER);
-        hShipLabel = new JLabel("Player Ships", SwingConstants.CENTER);
-        cShipLabel = new JLabel("Computer Ships", SwingConstants.CENTER);
+        title = new JLabel("Begin Battleship!", SwingConstants.CENTER);;
         //gameBoard= new JLabel("",SwingConstants.RIGHT);
         //various counters need to show how many ships for each side
         pshipYard= new JLabel();
-        cshipYard= new JLabel("ShipYard");
-        lengthTF = new JTextField(10);
-        widthTF = new JTextField(10);
-        areaTF = new JTextField(10);
+        output = new JTextField(10);
          
-        //Buttons too:
-        calculateB = new JButton("");
-        exitB = new JButton("Exit");
         
         //Set the window's title.
         setTitle("Battleship.exe");
@@ -58,24 +55,22 @@ public class MainGui extends JFrame{
         //Image background = Toolkit.getDefaultToolkit().createImage("background.png");
                 //paintComponent(gameBoard);
                 //set up game board
-        pane.setLayout(new GridLayout(3, 3));
+        pane.setLayout(new GridLayout(2, 2));
         
         //Setup the central grid
-        JPanel centerGrid= grid.drawGrid();
+        centerGrid= drawGrid();
         
         
         //set up shipyard
         shipStuff = new JPanel();
         ships = fleet.returnShip();
-        currShip = ships[0];
+        currShipNum = 0;
+        currShip = ships[currShipNum];
         shipYard= drawShip(currShip);
         //The shipyard buttons
         JPanel buttons= new JPanel();
-        buttons.setLayout(new GridLayout(1,2));
         JButton flip= new JButton("Flip");
-        JButton next= new JButton("Next");
         buttons.add(flip);
-        buttons.add(next);
         
         /**
         * FLIP BUTTON ACTION
@@ -90,6 +85,7 @@ public class MainGui extends JFrame{
          shipStuff.add(shipYard, 0);
          shipStuff.repaint();
          shipStuff.revalidate();
+         JOptionPane.showMessageDialog(null, "My Goodness, this is so concise");
        
        }
          });
@@ -111,16 +107,11 @@ public class MainGui extends JFrame{
         shipStuff.add(buttons);
         
         //fun stuff
-        pane.add(hShipLabel);
+        pane.add(output);
         pane.add(title);
-        pane.add(cShipLabel);
         pane.add(shipStuff);
         pane.add(centerGrid);
-        pane.add(cshipYard);
        // pane.add(areaL);
-        pane.add(areaTF);
-        pane.add(calculateB);
-        pane.add(exitB);
         //gameBoard.drawImage(background, 0, 0, null);
        
   
@@ -180,6 +171,134 @@ public class MainGui extends JFrame{
       /*public void shipPlace(){
          for(
       }*/
+      
+      
+      /**
+      *
+      * STUFF FOR THE GRID PANEL
+      *
+      */
+      
+      public JPanel drawGrid(){
+         jp = new JPanel();
+         jp.setLayout(new GridLayout(10,10));
+         for (int i=0;i<10;i++){
+            for (int j=0;j<10;j++){
+               JButton l=createGridButton(i,j);
+               //ImageIcon icon = grid[i][j].getIcon(); //Get the icon from the gridsquare
+               //icon = resizeImage(icon);
+               //JButton l = new JButton(icon); //Put the icon on a label
+               list.add(l);
+               jp.add(l);
+            }
+         }
+         return jp;
+      }
+      private JButton getGridButton(int r, int c) {
+        int index = r * N + c;
+        return list.get(index);
+      }
+
+      private JButton createGridButton(final int row, final int col) {
+        final GridSquare square = board.getGridSquare(row, col);
+        ImageIcon icon= square.getIcon();
+        icon = resizeImage(icon);
+        final JButton b = new JButton(icon);
+        b.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //JButton gb = Grid.this.getGridButton(row, col);
+                //System.out.println("r" + row + ",c" + col);
+                
+                //OUR STUFF
+                //Check if SETUP mode or GAME mode
+                if(setupMode){
+                  ShipSection[] sections = currShip.getSections();
+                  //If ship fits on board, update gridsquare
+                  if(board.shipFits(currShip, square)){
+                  
+                     //Drew's sandbox
+                     ArrayList<GridSquare> updatedSquares = board.placeShip(currShip, square);
+                     for (GridSquare updatedSquare : updatedSquares){
+                        ImageIcon buttIcon = updatedSquare.getIcon();
+                        buttIcon = resizeImage(buttIcon);
+                        JButton butt = getGridButton(updatedSquare.getRow(), updatedSquare.getCol());
+                        butt.setIcon(buttIcon);
+                        butt.repaint();
+                        butt.revalidate();
+                     }
+                     //End Drew's Sandbox
+                     
+                     //CODE TO BE CLEANED
+                     // for(int i=0;i<sections.length;i++){
+//                      
+//                         if(currShip.isHorizontal()){
+//                            
+//                            //Update the logical gridsquares to be occupied, and retrieve icons for visual grid
+//                            GridSquare gs = board.getGridSquare(square.getRow() + i, square.getCol());
+//                            gs.setShipSection(sections[i]);
+//                            gs.updateIcon();
+//                            ImageIcon buttIcon = gs.getIcon();
+//                            buttIcon = resizeImage(buttIcon);
+//                            
+//                            //Update the buttons on the grid to reflect ship being placed there
+//                            JButton butt = getGridButton(gs.getRow(), gs.getCol());
+//                            butt.setIcon(buttIcon);
+//                            butt.repaint();
+//                            butt.revalidate();
+//                            
+//                            
+//                         }
+//                         else{
+//                            GridSquare gs = board.getGridSquare(square.getRow(), square.getCol() + i);
+//                            gs.setShipSection(sections[i]);
+//                            gs.updateIcon();
+//                            ImageIcon buttIcon = gs.getIcon();
+//                            buttIcon = resizeImage(buttIcon);
+//                            
+//                            JButton butt = getGridButton(gs.getRow(), gs.getCol());
+//                            butt.setIcon(buttIcon);
+//                            butt.repaint();
+//                            butt.revalidate();
+//                         }
+//                      
+//                      }
+                        //END CODE TO BE CLEANED
+                  
+                  //Redraw ShipYard
+                  //Update the ship yard with next ship
+                     try{
+                        currShipNum++;
+                        currShip = ships[currShipNum];
+                        shipStuff.remove(shipYard);
+                        shipYard = drawShip(currShip);
+                        shipStuff.add(shipYard, 0);
+                        shipStuff.repaint();
+                        shipStuff.revalidate();
+                     }
+                     catch(IndexOutOfBoundsException i){
+                        shipStuff.remove(shipYard);
+                        shipStuff.repaint();
+                        shipStuff.revalidate();
+                     }
+                  }
+                  else{
+                     JOptionPane popUp = new JOptionPane();
+                     popUp.showMessageDialog(null, "Cannot Place Ship There.");
+                  }
+                }
+                
+                //If in GAME Mode, this is what the button clicks do
+                else{
+                  //
+                  ;
+                }
+            }
+        });
+        return b;
+    }
+    
        
       public static void main(String[] args){
          MainGui main= new MainGui();

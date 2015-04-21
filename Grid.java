@@ -10,8 +10,6 @@ import java.awt.GridLayout;
 
 
 public class Grid{
-   private static final int N = 5;
-   private final ArrayList<JButton> list = new ArrayList<JButton>();
    GridSquare grid[][]= new GridSquare[10][10];
    public Grid(){
       for (int i=0;i<10;i++){
@@ -26,56 +24,59 @@ public class Grid{
       return square;
    }
    
-   public JPanel drawGrid(){
-      JPanel jp = new JPanel();
-      jp.setLayout(new GridLayout(10,10));
-      for (int i=0;i<10;i++){
-         for (int j=0;j<10;j++){
-             JButton l=createGridButton(i,j);
-             //ImageIcon icon = grid[i][j].getIcon(); //Get the icon from the gridsquare
-             //icon = resizeImage(icon);
-             //JButton l = new JButton(icon); //Put the icon on a label
-             list.add(l);
-             jp.add(l);
-         }
-      }
-      return jp;
-   }
-   private JButton getGridButton(int r, int c) {
-        int index = r * N + c;
-        return list.get(index);
-    }
-
-    private JButton createGridButton(final int row, final int col) {
-        ImageIcon icon= grid[row][col].getIcon();
-        final JButton b = new JButton(icon);
-        b.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JButton gb = Grid.this.getGridButton(row, col);
-                System.out.println("r" + row + ",c" + col);
-            }
-        });
-        return b;
-    }
+   /**
+   * If it fits, it ships
+   */
    
-   public ImageIcon resizeImage(ImageIcon i){
-      /*
-         Image img = i.getImage();
-         //Now create a buffered image the same size as the image:
-         BufferedImage bi = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-         //Then blit the icon image to the buffered image, and resize it as you do so:
-         Graphics g = bi.createGraphics();
-         g.drawImage(img, 0, 0, 33, 33, null);
-         //(The code above may be incorrect - check the docs)
-         //Now recreate the IconImage with the new buffered image:
-         ImageIcon newIcon = new ImageIcon(bi);
-         return newIcon;
-         */
-         Image image = i.getImage(); // transform it 
-         Image newimg = image.getScaledInstance(33, 33,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
-         ImageIcon b= new ImageIcon(newimg);
-         return b;
+   public boolean shipFits(Ship s, GridSquare gs){
+      ShipSection[] sections = s.getSections();
+      boolean fits = true;
+      for(int i=0;i<sections.length;i++){
+         if(s.isHorizontal()){
+            try{
+               GridSquare square = this.getGridSquare(gs.getRow() + i, gs.getCol());
+               if(gs.isOccupied()) fits = false;
+            }
+            catch(ArrayIndexOutOfBoundsException a){
+               fits = false;
+            }
+          }
+          else{
+             try{
+                GridSquare square = this.getGridSquare(gs.getRow(), gs.getCol() + i);
+                if(gs.isOccupied()) fits = false;
+             }
+             catch(ArrayIndexOutOfBoundsException a){
+                fits = false;
+             }
+          }
+       }
+       return fits;
+   }
+   
+   /**
+   * Place Ship on Grid starting at specific GridSquare
+   * Returns the array of affected GridSquares
+   */
+   
+   public ArrayList<GridSquare> placeShip(Ship s, GridSquare gs){
+      ShipSection[] sections = s.getSections();
+      int index = 0;
+      ArrayList<GridSquare> squares = new ArrayList<GridSquare>(sections.length);
+      GridSquare square;
+      //Update the logical gridsquares to be occupied, and retrieve icons for visual grid
+      for(int i=0;i<sections.length;i++){           
+         if(s.isHorizontal()){   
+            square = this.getGridSquare(gs.getRow() + i, gs.getCol());
+         }
+         else{
+            square = this.getGridSquare(gs.getRow(), gs.getCol() + i); 
+         }
+         square.setShipSection(sections[i]);
+         square.updateIcon();
+         squares.add(index,square);
+         index++;
       }
+      return squares;
+   }
 }

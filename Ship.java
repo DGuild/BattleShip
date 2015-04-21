@@ -21,6 +21,13 @@ public class Ship{
    }
    
    /**
+   * Return the array of Ship Sections
+   */
+   public ShipSection[] getSections(){
+      return sections;
+   }
+   
+   /**
    * Returns true if all ship sections have been hit. Otherwise, returns false
    */
    public boolean isSunk(){
