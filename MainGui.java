@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 public class MainGui extends JFrame{
    ComputerPlayer computer;
+   Boolean playerFinished=false;
    int shipnum= -1;
    int rotationNum=0;
    private static final int WIDTH = 1000;
@@ -23,7 +24,7 @@ public class MainGui extends JFrame{
    private JTextField output;
    private Grid board = new Grid();
    
-   private Grid cBoard = new Grid();
+   private Grid cBoard;
    private boolean setupMode = true;
    //Player player= new Player();
       // private BufferedImage myPicture;
@@ -39,6 +40,7 @@ public class MainGui extends JFrame{
     
      //picture
        public MainGui(){
+        computer= new ComputerPlayer(new EasyComputerAI(board));
         title = new JLabel("Begin Battleship!", SwingConstants.CENTER);;
         //gameBoard= new JLabel("",SwingConstants.RIGHT);
         //various counters need to show how many ships for each side
@@ -60,8 +62,8 @@ public class MainGui extends JFrame{
         pane.setLayout(new GridLayout(2, 2));
         
         //Setup the central grid
-       // computer.generateComputerPlayerGrid();
-       // cBoard=computer.getComputerPlayerGrid();
+        computer.generateComputerPlayerGrid();
+        cBoard=computer.getComputerPlayerGrid();
         compGrid = drawGrid(cBoard, compGrid, cList);
         playerGrid = drawGrid(board,playerGrid, pList);
         
@@ -278,11 +280,31 @@ public class MainGui extends JFrame{
                      icon.setIcon(newIcon);
                      icon.repaint();
                      icon.revalidate();
+                     playerFinished=true;
                   }else{
-                     //tell user is guessed already
+                     JOptionPane popUp = new JOptionPane();
+                     popUp.showMessageDialog(null,"Invalid Guess");
                   }
-                  GridSquare cGuess= computer.madeGuess();
-                }
+                  if(playerFinished){
+                     GridSquare cGuess= computer.makeGuess();
+                     if(cGuess.isOccupied()){
+                        cGuess.getShipSection().getHit();
+                     } 
+                     cGuess.setGuessed();
+                     cGuess.updateIcon();
+                     ImageIcon newIcon = cGuess.getIcon();
+                     newIcon = resizeImage(newIcon);
+                     JButton icon = getGridButton(cGuess.getRow(), cGuess.getCol(), pList);
+                     icon.setIcon(newIcon);
+                     icon.setIcon(newIcon);
+                     icon.repaint();
+                     icon.revalidate();
+   
+                     }
+                  }
+                  square.updateIcon();
+                  playerFinished=false;
+                
             }
         });
         return b;
@@ -291,7 +313,6 @@ public class MainGui extends JFrame{
     public void mainGame(){
       this.remove(title);
       this.add(compGrid, 1);
-      computer= new ComputerPlayer(new EasyComputerAI(board));
       setupMode = false;
     }
     
