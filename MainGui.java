@@ -392,7 +392,7 @@ public class MainGui extends JFrame{
 
     
        
-      public static void main(String[] args){
-         MainGui main= new MainGui();
-      }
+      // public static void main(String[] args){
+//          MainGui main= new MainGui();
+//       }
 }
