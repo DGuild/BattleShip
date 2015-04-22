@@ -50,7 +50,13 @@ public class MainGui extends JFrame{
     
      //picture
        public MainGui(){
-        computer= new ComputerPlayer(new EasyComputerAI(board));
+        int dialogButton = JOptionPane.YES_NO_OPTION;
+         int dialogResult = JOptionPane.showConfirmDialog(this, "Easy?", "Title on Box", dialogButton);
+         if(dialogResult == 0) {
+           computer= new ComputerPlayer(new EasyComputerAI(board));
+         } else {
+           computer=new ComputerPlayer(new MediumComputerAI(board));
+         } 
         title = new JLabel("Begin Battleship!", SwingConstants.CENTER);;
         //gameBoard= new JLabel("",SwingConstants.RIGHT);
         //various counters need to show how many ships for each side

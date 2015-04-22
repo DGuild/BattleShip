@@ -9,7 +9,15 @@ public class MediumComputerAI implements ComputerAI{
    private boolean targetMode = false;
    private Grid grid;
    
+   public MediumComputerAI(Grid g){
+      this.grid = g;
+   }
+   
    public void addMove(){
+   try{
+      toggleTargetMode();
+   }catch(NullPointerException e){
+   }
       if(targetMode){
          GridSquare[] guesses = this.generateTargetedGridSquare(this.grid, lastGuess);
          for(GridSquare guess : guesses){
@@ -31,6 +39,7 @@ public class MediumComputerAI implements ComputerAI{
    public GridSquare getNextMove(){
       GridSquare guess = (GridSquare) nextGuesses.pop();
       alreadyGuessedSquares.add(guess);
+      lastGuess = guess;
       return guess;
       
    }
@@ -59,25 +68,25 @@ public class MediumComputerAI implements ComputerAI{
          squares[0] = g.getGridSquare(targetCol, targetRow -1); //square to the top
       }
       catch (NullPointerException n){
-         break;
+         ;
       }
       try{
          squares[1] = g.getGridSquare(targetCol + 1, targetRow); //square to the right
       }
       catch (NullPointerException n){
-         break;
+         ;
       }
       try{
          squares[2] = g.getGridSquare(targetCol, targetRow + 1); //square to the bottom
       }
       catch (NullPointerException n){
-         break;
+         ;
       }
       try{
          squares[3] = g.getGridSquare(targetCol - 1, targetRow); //square to the left
       }
       catch (NullPointerException n){
-         break;
+         ;
       }
       return squares;
    }
