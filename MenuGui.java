@@ -21,7 +21,7 @@ public class MenuGui	extends JFrame	implements ActionListener{
    	main.setSize(1000,1000);
    	main.setLocationRelativeTo(null);
    	main.setLayout(null);
-   	
+            
    	JPanel screen = new JPanel();
    	
    	play = new JButton("Play Game!");

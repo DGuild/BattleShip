@@ -51,13 +51,14 @@ public class MainGui extends JFrame{
      //picture
        public MainGui(){
         int dialogButton = JOptionPane.YES_NO_OPTION;
-         int dialogResult = JOptionPane.showConfirmDialog(this, "Easy?", "Title on Box", dialogButton);
+         int dialogResult = JOptionPane.showConfirmDialog(this, "Play against an Easy opponent?", "Title on Box", dialogButton);
          if(dialogResult == 0) {
            computer= new ComputerPlayer(new EasyComputerAI(board));
          } else {
            computer=new ComputerPlayer(new MediumComputerAI(board));
          } 
-        title = new JLabel("Begin Battleship!", SwingConstants.CENTER);;
+        title = new JLabel("Place your ships!", SwingConstants.CENTER);;
+        title.setFont(new Font("arial", Font.BOLD,	30));
         //gameBoard= new JLabel("",SwingConstants.RIGHT);
         //various counters need to show how many ships for each side
         pshipYard= new JLabel();
@@ -68,6 +69,7 @@ public class MainGui extends JFrame{
          
         //Get the content pane (CP).
         Container pane = getContentPane();
+        pane.setBackground(new Color(250, 220, 150));
         
         //Set the layout.
         //paint a grid for the battleship bit
@@ -75,6 +77,7 @@ public class MainGui extends JFrame{
                 //paintComponent(gameBoard);
                 //set up game board
         pane.setLayout(new GridLayout(2, 2));
+        
         
         //Setup the central grid
         computer.generateComputerPlayerGrid();
@@ -86,13 +89,16 @@ public class MainGui extends JFrame{
         
         //set up shipyard
         shipStuff = new JPanel();
+        shipStuff.setBackground(new Color(250, 220, 150));
         ships = fleet.returnShip();
         currShipNum = 0;
         currShip = ships[currShipNum];
         shipYard= drawShip(currShip);
         output = new JLabel(currShip.getName(), SwingConstants.CENTER);
+        output.setFont(new Font("arial", Font.BOLD, 30));
 
         //The shipyard buttons
+        buttons.setBackground(new Color(250, 220, 150));
         buttons.add(flip);
         
         /**
