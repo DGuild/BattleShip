@@ -60,6 +60,9 @@ public class Ship{
       String name = names[n-2];
       return name;
    }
+   public String getName(){
+      return name;
+   }
    
    /**
    * Returns the horizontal orientation

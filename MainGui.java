@@ -15,6 +15,7 @@ import java.net.*;
 public class MainGui extends JFrame{
    ComputerPlayer computer;
    Boolean playerFinished=false;
+   Boolean mute=false;
    int shipnum= -1;
    int rotationNum=0;
    private static final int WIDTH = 1000;
@@ -22,10 +23,15 @@ public class MainGui extends JFrame{
    private static final int N = 10;
    private final ArrayList<JButton> pList = new ArrayList<JButton>();
    private final ArrayList<JButton> cList = new ArrayList<JButton>();
-    
+   
+   private JButton endGame= new JButton("End Game");
+   private JButton muteGame= new JButton("Mute Game");
+   private JButton flip= new JButton("Flip");
+   JPanel buttons= new JPanel();
+        
    private JLabel title, pshipYard;
    private JPanel playerGrid, compGrid;
-   private JTextField output;
+   private JLabel output;
    private Grid board = new Grid();
    
    private Grid cBoard;
@@ -49,8 +55,7 @@ public class MainGui extends JFrame{
         //gameBoard= new JLabel("",SwingConstants.RIGHT);
         //various counters need to show how many ships for each side
         pshipYard= new JLabel();
-        output = new JTextField(10);
-         
+                 
         
         //Set the window's title.
         setTitle("Battleship.exe");
@@ -79,14 +84,28 @@ public class MainGui extends JFrame{
         currShipNum = 0;
         currShip = ships[currShipNum];
         shipYard= drawShip(currShip);
+        output = new JLabel(currShip.getName(), SwingConstants.CENTER);
+
         //The shipyard buttons
-        JPanel buttons= new JPanel();
-        JButton flip= new JButton("Flip");
         buttons.add(flip);
         
         /**
-        * FLIP BUTTON ACTION
+        * FLIP ENDGAME MUTEGAME BUTTON ACTION
         */
+        endGame.addActionListener( new ActionListener() {
+       public void actionPerformed(ActionEvent e)
+       {
+         System.exit(0);
+       }
+         });
+    muteGame.addActionListener( new ActionListener() {
+       public void actionPerformed(ActionEvent e)
+       {
+         if(!mute){mute=true;}else{mute=false;}
+       }
+         });
+
+
         flip.addActionListener( new ActionListener() {
        public void actionPerformed(ActionEvent e)
        {
@@ -252,6 +271,8 @@ public class MainGui extends JFrame{
                         shipStuff.add(shipYard, 0);
                         shipStuff.repaint();
                         shipStuff.revalidate();
+                        setOutput(currShip.getName());
+                      
                      }
                      catch(IndexOutOfBoundsException i){
                         shipStuff.remove(shipYard);
@@ -275,7 +296,11 @@ public class MainGui extends JFrame{
                      if(gs.isOccupied()){
                         gs.getShipSection().getHit();
                         playAudio("boom.wav");
-                     }else{ playAudio("sploosh.wav");}
+                        setOutput("HIT!");
+                     }else{ 
+                        playAudio("sploosh.wav");
+                        setOutput("Miss!");
+                     }
                      
                     
                      gs.setGuessed();
@@ -322,10 +347,14 @@ public class MainGui extends JFrame{
         return b;
     }
     
+    
     public void mainGame(){
       this.remove(title);
       this.add(compGrid, 1);
       setupMode = false;
+      buttons.remove(flip);
+      buttons.add(endGame);
+      buttons.add(muteGame);
     }
     public void gameOver(Boolean i){
       JOptionPane popUp = new JOptionPane();
@@ -339,14 +368,21 @@ public class MainGui extends JFrame{
     
      public void playAudio(String s){
       String fileName=s;
-      try {
-      AudioClip clip = Applet.newAudioClip(
-      new URL("file:C:/Users/ohno2_000/Documents/GitHub/battleship2/BattleShip/"+s));
-      clip.play();
-      } catch (MalformedURLException murle) {
-      System.out.println(murle);
+      if (!mute){
+         try {
+         AudioClip clip = Applet.newAudioClip(
+         new URL("file:"+s));
+         clip.play();
+         } catch (MalformedURLException murle) {
+         System.out.println(murle);
+         }
       }
    }
+      public void setOutput(String s){
+         output.setText(s);
+         output.repaint();
+         output.revalidate();
+      }
 
     
        
