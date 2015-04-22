@@ -83,13 +83,16 @@ public class MainGui extends JFrame{
         computer.generateComputerPlayerGrid();
         cBoard=computer.getComputerPlayerGrid();
         compGrid = drawGrid(cBoard, compGrid, cList);
+        compGrid.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.WHITE));
         playerGrid = drawGrid(board,playerGrid, pList);
+        playerGrid.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.WHITE));
         
         
         
         //set up shipyard
         shipStuff = new JPanel();
         shipStuff.setBackground(new Color(250, 220, 150));
+        shipStuff.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.GRAY));    
         ships = fleet.returnShip();
         currShipNum = 0;
         currShip = ships[currShipNum];

@@ -70,7 +70,7 @@ public class MenuGui	extends JFrame	implements ActionListener{
       JPanel helpPanel = new JPanel();
       helpPanel.setOpaque(true);
       helpPanel.setBackground(Color.WHITE);
-      helpPanel.setSize(700,600);
+      helpPanel.setSize(700,700);
       helpPanel.setLocation(150,100);
       
       helpTitle = new JLabel("How To Play");
@@ -79,18 +79,18 @@ public class MenuGui	extends JFrame	implements ActionListener{
       helpTitle.setLocation(250,20);
       helpPanel.add(helpTitle);
       
-      String helpWriteup = "\n\n\nClick on your own board to place your ships.\n" +
+      String helpWriteup = "\n\nClick on your own board to place your ships.\n" +
                            "\nMake sure to consider each placement carefully! Every move matters!\n\n\n" +
                            "Once your ships have been placed, the game will begin. Click on the opponent's board to make a move." +
-                           "A gold star means you've made a successful hit! Good job!\n\n" + 
-                           "A red x means you've missed. Try again!" + 
-                           "The game is over when one player has lost all of their ships.";
+                           " A red circle on a ship means you've made a successful hit! Good job!\n\n" + 
+                           " A red circle over an X means you've missed. Try again!" + 
+                           "\n\nThe game is over when one player has lost all of their ships.";
                            
       helpText = new JTextArea(helpWriteup);
       helpText.setLineWrap(true);
       helpText.setWrapStyleWord(true);
       helpText.setEditable(false);
-      helpText.setFont(new Font("serif", Font.PLAIN, 20));
+      helpText.setFont(new Font("serif", Font.PLAIN, 25));
       helpText.setLocation(50,300);
       helpText.setSize(500,200);
       helpPanel.add(helpText);
